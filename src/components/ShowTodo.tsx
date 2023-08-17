@@ -20,12 +20,13 @@ const ShowTodo : React.FC<Props> = ({todos, setTodos, setEditTodo, setId})=>{
   };
   return (
     <>
-      <main className="flex flex-col w-fit p-2 m-4 max-w-4xl mx-auto">
+    <main className="mx-auto max-w-4xl"></main>
+      <section className="flex flex-col p-2 m-4 justify-center">
         {todos.length > 1 &&
           todos.slice(1, todos.length).map((ele: string, index: number) => (
             <section
               key={index}
-              className="flex justify-between gap-4 min-w-[400px] max-w-min shadow-xl my-4 p-2 border-b-[3px] border-green-400"
+              className="flex justify-between mx-auto max-w-xl gap-4 md:min-w-[400px] w-full shadow-xl my-4 p-2 border-b-[3px] border-green-400"
             >
               <h1 className="font-[500] text-base text-gray-700">{ele}</h1>
               <section className="flex gap-2">
@@ -47,9 +48,9 @@ const ShowTodo : React.FC<Props> = ({todos, setTodos, setEditTodo, setId})=>{
             </section>
           ))}
         {todos.length <= 1 && (
-          <h1 className="font-[500] text-base text-gray-700">No Task Yet</h1>
+          <h1 className="font-[500] text-base text-gray-700 text-center">No Task Yet</h1>
         )}
-      </main>
+      </section>
     </>
   );
 };
