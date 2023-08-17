@@ -1,23 +1,18 @@
 import { Route, Routes } from "react-router-dom";
 import CreateTodo from "./components/CreateTodo";
 import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
 import User from "./pages/User";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ShowTodo from "./components/ShowTodo";
 
-export default function App() {
-  const [editTodo, setEditTodo] = useState(null);
-  const [todos, setTodos] = useState([""]);
-  const [inputVal, setInputVal] = useState("");
-  const [id, setId] = useState(null);
+const App: React.FC = () => {
+  const [editTodo, setEditTodo] = useState<string|undefined>("");
+  const [todos, setTodos] = useState<string[]>([""]);
+  const [inputVal, setInputVal] = useState<string>("");
+  const [id, setId] = useState<number>(-1);
 
-  useEffect(()=>{
-    setTodos(todos);
-  }, [todos, editTodo])
   return (
     <>
-      {/* <Navbar /> */}
       <CreateTodo
         todos={todos}
         setTodos={setTodos}
@@ -26,7 +21,7 @@ export default function App() {
         inputVal={inputVal}
         setInputVal={setInputVal}
         id={id}
-        setId = {setId}
+        setId={setId}
       />
       <ShowTodo
         todos={todos}
@@ -36,7 +31,7 @@ export default function App() {
         inputVal={inputVal}
         setInputVal={setInputVal}
         id={id}
-        setId = {setId}
+        setId={setId}
       />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -44,4 +39,5 @@ export default function App() {
       </Routes>
     </>
   );
-}
+};
+export default App;

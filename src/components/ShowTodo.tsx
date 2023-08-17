@@ -1,22 +1,21 @@
-import React, { useRef } from "react";
 
-const ShowTodo = ({
-  todos,
-  setTodos,
-  editTodo,
-  setEditTodo,
-  inputVal,
-  setInputVal,
-  id,
-  setId,
-}) => {
-  const inputRef = useRef(null);
-  const handleDelete = (id) => {
-    setTodos(todos.filter((todo, index) => id !== index - 1));
+interface Props{
+  todos :string[],
+  setTodos:React.Dispatch<React.SetStateAction<string[]>>,
+  editTodo:string | undefined,
+  setEditTodo:React.Dispatch<React.SetStateAction<string | undefined>>;
+  inputVal:string,
+  setInputVal:React.Dispatch<React.SetStateAction<string>>,
+  id:number,
+  setId:React.Dispatch<React.SetStateAction<number>>,
+}
+
+const ShowTodo : React.FC<Props> = ({todos, setTodos, setEditTodo, setId})=>{
+  const handleDelete = (id:number) => {
+    setTodos(todos.filter((_todo:string, index:number) => id !== index - 1));
   };
   const handleUpdate = (id: number) => {
-    const newTodo = todos.find((todo, index) => index - 1 === id);
-    setEditTodo(newTodo);
+    setEditTodo(todos.find((_todo:string, index:number) => index - 1 === id))
     setId(id);
   };
   return (
@@ -32,7 +31,7 @@ const ShowTodo = ({
               <section className="flex gap-2">
                 <button
                   className="bg-green-400 text-white font-bold rounded-xl p-2 py-1 self-center"
-                  onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+                  onClick={() =>
                     handleDelete(index)
                   }
                 >
@@ -40,16 +39,16 @@ const ShowTodo = ({
                 </button>
                 <button
                   className="bg-green-400 text-white font-bold rounded-xl p-2 py-1 self-center"
-                  onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                    handleUpdate(index)
-                  }
+                  onClick={()=>handleUpdate(index)}
                 >
                   Edit
                 </button>
               </section>
             </section>
           ))}
-        {todos.length <= 1 && <h1 className="font-[500] text-base text-gray-700">No Task Yet</h1>}
+        {todos.length <= 1 && (
+          <h1 className="font-[500] text-base text-gray-700">No Task Yet</h1>
+        )}
       </main>
     </>
   );

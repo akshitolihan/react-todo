@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
-import ShowTodo from "./ShowTodo";
-
-const CreateTodo = ({
-  todos,
-  setTodos,
-  editTodo,
-  setEditTodo,
-  inputVal,
-  setInputVal,
-  id,
-  setId,
-}) => {
+import React, { useEffect } from "react";
+interface Props{
+  todos :string[],
+  setTodos:React.Dispatch<React.SetStateAction<string[]>>,
+  editTodo:string | undefined,
+  setEditTodo:React.Dispatch<React.SetStateAction<string | undefined>>,
+  inputVal:string,
+  setInputVal:React.Dispatch<React.SetStateAction<string>>,
+  id:number,
+  setId:React.Dispatch<React.SetStateAction<number>>,
+}
+const CreateTodo : React.FC<Props> = ({todos, setTodos, editTodo, setEditTodo, inputVal, setInputVal, id})=>{
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.target.value);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     console.log(editTodo);
     if (!editTodo) {
