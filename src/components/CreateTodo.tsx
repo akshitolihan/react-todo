@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from "react";
+import { AiFillPlusCircle, AiFillEdit } from "react-icons/ai";
+
 interface Props {
   todos: string[];
   setTodos: React.Dispatch<React.SetStateAction<string[]>>;
@@ -24,16 +26,16 @@ const CreateTodo: React.FC<Props> = ({
   };
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    
+
     if (inputRef.current) {
       inputRef.current.focus();
     }
     console.log(editTodo);
     if (inputVal.length > 0) {
       if (!editTodo) {
-        setTodos([...todos, inputVal]);
+        setTodos([...todos, inputVal].reverse());
         setInputVal("");
-        localStorage.setItem("tasks", JSON.stringify([...todos, inputVal]));
+        localStorage.setItem("tasks", JSON.stringify([...todos, inputVal].reverse()));
         console.log("I am here");
       } else {
         const newTodo = todos.map((todo, index) =>
@@ -56,27 +58,30 @@ const CreateTodo: React.FC<Props> = ({
       }
       setInputVal(editTodo);
     } else setInputVal("");
-    // localStorage.setItem("tasks", JSON.stringify(todos));
   }, [setInputVal, editTodo]);
 
   return (
     <>
       <section className="flex flex-col w-fit p-2 m-4 max-w-4xl mx-auto">
         <h1 className="text-center m-4 text-2xl font-extrabold">Add Task</h1>
-        <form onSubmit={handleSubmit} className="flex gap-4">
+        <form
+          onSubmit={handleSubmit}
+          className="flex justify-between gap-5 border-blue-400 border-[2.5px] rounded m-4 shadow-xl"
+        >
           <input
-            ref = {inputRef}
+            ref={inputRef}
             name="todoContent"
             value={inputVal}
             type="text"
+            placeholder="Add new task..."
             onChange={handleChange}
-            className="border-b-[3px] border-b-green-400 outline-0 px-2 font-[500] text-base md:w-[400px]"
+            className="border--[3px] border-b-blue-400 outline-0 px-2 font-[500] text-base md:w-[400px] p-4"
           />
           <button
             onClick={handleSubmit}
-            className="bg-green-400 text-white font-bold rounded-xl p-2 py-1"
+            className="bg-blue-400 text-white font-bold rounded-full  p-[5px] self-center m-2"
           >
-            {editTodo ? "Edit" : "Add"}
+            {!editTodo ? <AiFillPlusCircle /> : <AiFillEdit />}
           </button>
         </form>
       </section>

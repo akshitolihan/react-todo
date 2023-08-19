@@ -1,56 +1,58 @@
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
-interface Props{
-  todos :string[],
-  setTodos:React.Dispatch<React.SetStateAction<string[]>>,
-  editTodo:string | undefined,
-  setEditTodo:React.Dispatch<React.SetStateAction<string | undefined>>;
-  inputVal:string,
-  setInputVal:React.Dispatch<React.SetStateAction<string>>,
-  id:number,
-  setId:React.Dispatch<React.SetStateAction<number>>,
+interface Props {
+  todos: string[];
+  setTodos: React.Dispatch<React.SetStateAction<string[]>>;
+  editTodo: string | undefined;
+  setEditTodo: React.Dispatch<React.SetStateAction<string | undefined>>;
+  inputVal: string;
+  setInputVal: React.Dispatch<React.SetStateAction<string>>;
+  id: number;
+  setId: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const ShowTodo : React.FC<Props> = ({todos, setTodos, setEditTodo, setId})=>{
-  const handleDelete = (id:number) => {
-    const newData = todos.filter((_todo:string, index:number) => id !== index)
-    setTodos(newData);      
+const ShowTodo: React.FC<Props> = ({ todos, setTodos, setEditTodo, setId }) => {
+  const handleDelete = (id: number) => {
+    const newData = todos.filter(
+      (_todo: string, index: number) => id !== index
+    );
+    setTodos(newData);
     localStorage.setItem("tasks", JSON.stringify(newData));
   };
   const handleUpdate = (id: number) => {
-    setEditTodo(todos.find((_todo:string, index:number) => index  === id))
+    setEditTodo(todos.find((_todo: string, index: number) => index === id));
     setId(id);
   };
   return (
     <>
-    <main className="mx-auto max-w-4xl"></main>
-      <section className="flex flex-col p-2 m-4 justify-center">
+      <main className="max-w-xl mx-auto"></main>
+      <section className="flex flex-col justify-center max-w-[400px] w-full  mx-auto ">
         {todos.length > 0 &&
           todos.slice(0, todos.length).map((ele: string, index: number) => (
-            <section
-              key={index}
-              className="flex justify-between mx-auto max-w-xl gap-4 md:min-w-[400px] w-full shadow-xl my-4 p-2 border-b-[3px] border-green-400"
-            >
-              <h1 className="font-[500] text-base text-gray-700">{ele}</h1>
+            <section key={index} className="flex justify-between gap-5 border-blue-400 border-[2.5px] rounded p-4 m-4 shadow-xl">
+              <h1 className="font-[500] text-base text-gray-700 max-w-[300px] w-full text-justify">
+                {ele}
+              </h1>
               <section className="flex gap-2">
                 <button
-                  className="bg-green-400 text-white font-bold rounded-xl p-2 py-1 self-center"
-                  onClick={() =>
-                    handleDelete(index)
-                  }
+                  className="bg-blue-400 text-white font-bold rounded-full  p-[5px] self-center"
+                  onClick={() => handleUpdate(index)}
                 >
-                  Delete
+                  <AiFillEdit />
                 </button>
                 <button
-                  className="bg-green-400 text-white font-bold rounded-xl p-2 py-1 self-center"
-                  onClick={()=>handleUpdate(index)}
+                  className="bg-blue-400 text-white font-bold rounded-full p-[5px] self-center"
+                  onClick={() => handleDelete(index)}
                 >
-                  Edit
+                  <AiFillDelete />
                 </button>
               </section>
             </section>
           ))}
         {todos.length < 1 && (
-          <h1 className="font-[500] text-base text-gray-700 text-center">No Task Yet</h1>
+          <h1 className="font-[500] text-base text-gray-700 text-center">
+            No Task Yet
+          </h1>
         )}
       </section>
     </>
