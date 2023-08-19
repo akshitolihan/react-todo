@@ -38,14 +38,18 @@ const CreateTodo: React.FC<Props> = ({
         setEditTodo("");
         setInputVal("");
       }
+      localStorage.setItem("tasks", JSON.stringify(todos));
     }
   };
+
   useEffect(() => {
     if (editTodo) {
       console.log("Edit todo ", editTodo);
       setInputVal(editTodo);
     } else setInputVal("");
+    // localStorage.setItem("tasks", JSON.stringify(todos));
   }, [setInputVal, editTodo]);
+
   return (
     <>
       <section className="flex flex-col w-fit p-2 m-4 max-w-4xl mx-auto">

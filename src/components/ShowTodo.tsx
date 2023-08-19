@@ -12,7 +12,9 @@ interface Props{
 
 const ShowTodo : React.FC<Props> = ({todos, setTodos, setEditTodo, setId})=>{
   const handleDelete = (id:number) => {
-    setTodos(todos.filter((_todo:string, index:number) => id !== index - 1));
+    const newData = todos.filter((_todo:string, index:number) => id !== index - 1)
+    setTodos(newData);      
+    localStorage.setItem("tasks", JSON.stringify(newData));
   };
   const handleUpdate = (id: number) => {
     setEditTodo(todos.find((_todo:string, index:number) => index - 1 === id))
