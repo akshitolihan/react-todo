@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 interface Props {
   todos: string[];
   setTodos: React.Dispatch<React.SetStateAction<string[]>>;
@@ -18,33 +18,42 @@ const CreateTodo: React.FC<Props> = ({
   setInputVal,
   id,
 }) => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.target.value);
   };
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
     console.log(editTodo);
     if (inputVal.length > 0) {
       if (!editTodo) {
         setTodos([...todos, inputVal]);
         setInputVal("");
+        localStorage.setItem("tasks", JSON.stringify([...todos, inputVal]));
         console.log("I am here");
       } else {
         const newTodo = todos.map((todo, index) =>
-          index - 1 === id ? inputVal : todo
+          index === id ? inputVal : todo
         );
         console.log(newTodo);
         setTodos(newTodo);
         setEditTodo("");
         setInputVal("");
+        localStorage.setItem("tasks", JSON.stringify(newTodo));
       }
-      localStorage.setItem("tasks", JSON.stringify(todos));
     }
   };
 
   useEffect(() => {
     if (editTodo) {
       console.log("Edit todo ", editTodo);
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
       setInputVal(editTodo);
     } else setInputVal("");
     // localStorage.setItem("tasks", JSON.stringify(todos));
@@ -56,6 +65,7 @@ const CreateTodo: React.FC<Props> = ({
         <h1 className="text-center m-4 text-2xl font-extrabold">Add Task</h1>
         <form onSubmit={handleSubmit} className="flex gap-4">
           <input
+            ref = {inputRef}
             name="todoContent"
             value={inputVal}
             type="text"

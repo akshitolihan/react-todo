@@ -12,20 +12,20 @@ interface Props{
 
 const ShowTodo : React.FC<Props> = ({todos, setTodos, setEditTodo, setId})=>{
   const handleDelete = (id:number) => {
-    const newData = todos.filter((_todo:string, index:number) => id !== index - 1)
+    const newData = todos.filter((_todo:string, index:number) => id !== index)
     setTodos(newData);      
     localStorage.setItem("tasks", JSON.stringify(newData));
   };
   const handleUpdate = (id: number) => {
-    setEditTodo(todos.find((_todo:string, index:number) => index - 1 === id))
+    setEditTodo(todos.find((_todo:string, index:number) => index  === id))
     setId(id);
   };
   return (
     <>
     <main className="mx-auto max-w-4xl"></main>
       <section className="flex flex-col p-2 m-4 justify-center">
-        {todos.length > 1 &&
-          todos.slice(1, todos.length).map((ele: string, index: number) => (
+        {todos.length > 0 &&
+          todos.slice(0, todos.length).map((ele: string, index: number) => (
             <section
               key={index}
               className="flex justify-between mx-auto max-w-xl gap-4 md:min-w-[400px] w-full shadow-xl my-4 p-2 border-b-[3px] border-green-400"
@@ -49,7 +49,7 @@ const ShowTodo : React.FC<Props> = ({todos, setTodos, setEditTodo, setId})=>{
               </section>
             </section>
           ))}
-        {todos.length <= 1 && (
+        {todos.length < 1 && (
           <h1 className="font-[500] text-base text-gray-700 text-center">No Task Yet</h1>
         )}
       </section>
