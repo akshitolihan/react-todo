@@ -33,13 +33,19 @@ const CreateTodo: React.FC<Props> = ({
     console.log(editTodo);
     if (inputVal.length > 0) {
       if (!editTodo) {
-        setTodos([...todos, inputVal].reverse());
+        const newTodos = [...todos.reverse(), inputVal].reverse();
+        setTodos(newTodos);
+        console.log(newTodos);
         setInputVal("");
-        localStorage.setItem("tasks", JSON.stringify([...todos, inputVal].reverse()));
+        localStorage.setItem("tasks", JSON.stringify(newTodos));
+        const storedCount = localStorage.getItem("tasks");
+        if (storedCount) {
+          setTodos(JSON.parse(storedCount));
+        }
         console.log("I am here");
       } else {
         const newTodo = todos.map((todo, index) =>
-          index === id ? inputVal : todo
+          index === id - 1 ? inputVal : todo
         );
         console.log(newTodo);
         setTodos(newTodo);
@@ -64,9 +70,9 @@ const CreateTodo: React.FC<Props> = ({
     <>
       <section className="flex flex-col w-fit p-2 m-4 max-w-4xl mx-auto">
         <h1 className="text-center m-4 text-2xl font-extrabold">Add Task</h1>
-        <form
+        <div
           onSubmit={handleSubmit}
-          className="flex justify-between gap-5 border-blue-400 border-[2.5px] rounded m-4 shadow-xl"
+          className="flex justify-between gap-5 border-blue-400 border-[2.5px] rounded m-4 shadow-xl h-full"
         >
           <input
             ref={inputRef}
@@ -75,7 +81,8 @@ const CreateTodo: React.FC<Props> = ({
             type="text"
             placeholder="Add new task..."
             onChange={handleChange}
-            className="border--[3px] border-b-blue-400 outline-0 px-2 font-[500] text-base md:w-[400px] p-4"
+            contentEditable="true"
+            className="flex m-4 border-b-blue-400 outline-0 px-2 font-[500] text-base md:w-[400px] p-4 min-h-[80px] break-normal break-words overflow-y-scroll"
           />
           <button
             onClick={handleSubmit}
@@ -83,7 +90,7 @@ const CreateTodo: React.FC<Props> = ({
           >
             {!editTodo ? <AiFillPlusCircle /> : <AiFillEdit />}
           </button>
-        </form>
+        </div>
       </section>
     </>
   );
