@@ -70,7 +70,7 @@ const CreateTodo: React.FC<Props> = ({
     <>
       <section className="flex flex-col w-fit p-2 m-4 max-w-4xl mx-auto">
         <h1 className="text-center m-4 text-2xl font-extrabold">Add Task</h1>
-        <div
+        <form
           onSubmit={handleSubmit}
           className="flex justify-between gap-5 border-blue-400 border-[2.5px] rounded m-4 shadow-xl h-full"
         >
@@ -90,7 +90,7 @@ const CreateTodo: React.FC<Props> = ({
           >
             {!editTodo ? <AiFillPlusCircle /> : <AiFillEdit />}
           </button>
-        </div>
+        </form>
       </section>
     </>
   );
