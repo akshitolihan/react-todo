@@ -45,7 +45,7 @@ const CreateTodo: React.FC<Props> = ({
         console.log("I am here");
       } else {
         const newTodo = todos.map((todo, index) =>
-          index === id - 1 ? inputVal : todo
+          index === id ? inputVal : todo
         );
         console.log(newTodo);
         setTodos(newTodo);
